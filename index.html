@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MarkMI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil:opsz,wght@10..72,100..900&family=Bungee+Spice&family=Dancing+Script:wght@400..700&family=Jaini&family=Special+Gothic&display=swap" rel="stylesheet">
+  <link rel="icon" href="MarkMI_icon.png" type="image/png">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil:opsz,wght@10..72,100..900&family=Jaini&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil:opsz,wght@10..72,100..900&family=Dancing+Script:wght@400..700&family=Jaini&family=Special+Gothic&display=swap" rel="stylesheet">
+  <style>
+    * {
+      /* margin: 0;
+      padding: 0; */
+      /* overflow: hidden; */
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 10px;
+      background: linear-gradient(135deg, #f0f8ff, #e0f7fa);
+      user-select: none;
+    }
+    .topcontainer {
+      height: 100px;
+      width: 100%;
+      display: flex;
+      /* background-color: red; */
+      justify-content: space-between;
+    }
+    .one {
+      /* background-color: pink; */
+      display: flex;
+    }
+    h2 {
+      font-family: "Bungee Spice", sans-serif;
+      font-size: 10px;
+    }
+    .mlogo {
+      height: 100%;
+      width: 100px;
+      border-radius: 100%;
+      overflow: hidden;
+    }
+    #imglogo {
+      height: 100%;
+      width: 100%;
+    }
+    .brand {
+      height: 100px;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+    }
+    
+    h1 {
+      font-family: "Big Shoulders Stencil", sans-serif;
+      font-optical-sizing: auto;
+      font-weight: 900;
+      color: #106505;
+      font-size: 40px;
+    }
+    p {
+      /* background-color: red; */
+      position: absolute;
+      font-size: 13px;
+      margin-top: 70px;
+      font-family: "Dancing Script", cursive;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 10px;
+    }
+
+    .manual-setup {
+      margin: 20px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .manual-setup input {
+      width: 60px;
+      margin: 5px;
+      padding: 5px;
+    }
+
+    .subject {
+      margin: 15px 0;
+      background: #fff;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    .subject:hover {
+      transform: translateY(-3px);
+    }
+    .subject h3 {
+      margin-bottom: 10px;
+      color: #007bff;
+    }
+    .attendance {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .attendance button {
+      padding: 8px 12px;
+      margin: 5px;
+      border: none;
+      border-radius: 8px;
+      background-color: #28a745;
+      color: white;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .attendance button.absent {
+      background-color: #dc3545;
+    }
+    .attendance button:hover {
+      opacity: 0.9;
+    }
+    .status {
+      flex-grow: 1;
+      text-align: right;
+      padding-left: 10px;
+    }
+    canvas {
+      max-width: 100%;
+      margin: 30px auto;
+      display: block;
+    }
+    .planner {
+      margin: 40px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    #targetInput {
+      width: 60px;
+      padding: 5px;
+    }
+
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+      animation: fadeInModal 0.3s ease-out;
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%; /* Could be adjusted */
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    button {
+      padding: 10px 15px;
+      margin: 10px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    button:focus {
+      outline: none;
+    }
+    .foot {
+      height: 100px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    h2 {
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="topcontainer">
+    <div class="one">
+      <div class="mlogo">
+        <img id="imglogo" src="/MarkMI_icon.png" alt="logo">
+      </div>
+      <div class="brand">
+        <h1>MarkMI</h1>
+        <p>Your perfect partner in presence</p>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="container">
+    <input type="text" id="searchInput" placeholder="🔍 Search subject..." style="width:100%;padding:10px;margin-bottom:20px;border-radius:10px;border:1px solid #ccc;" oninput="filterSubjects()">
+
+    <div id="subjects"></div>
+
+    <canvas id="attendanceChart"></canvas>
+
+    <div class="planner">
+      <h3>🎯 Target Planner</h3>
+      <label for="targetInput">Set Target %:</label>
+      <input type="number" id="targetInput" value="75">%
+      <p id="plannerResult"></p>
+    </div>
+
+    <div class="manual-setup">
+      <h3>🔧 Manual Setup (Only Once)</h3>
+      <div id="setupContainer"></div>
+      <button onclick="saveManualSetup()">Save Initial Data</button>
+    </div>
+
+    <div style="text-align:center; margin-top: 30px;">
+      <button onclick="addNewSubject()" style="padding:10px 20px; border:none; border-radius:10px; background:#007bff; color:white; margin:5px;">➕ Add Subject</button>
+      <button onclick="resetAttendance()" style="padding:10px 20px; border:none; border-radius:10px; background:#ffc107; color:white; margin:5px;">♻️ Reset All</button>
+    </div>
+  </div>
+
+  <!-- Modal for Present -->
+  <div id="presentModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('presentModal')">&times;</span>
+      <p>Mark attendance as Present for <strong id="modal-subject"></strong>?</p>
+      <button onclick="confirmAttendance(true)">✅ Yes, I am Present</button>
+      <button onclick="closeModal('presentModal')">❌ No, Close</button>
+    </div>
+  </div>
+
+  <!-- Modal for Absent -->
+  <div id="absentModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('absentModal')">&times;</span>
+      <p>Mark attendance as Absent for <strong id="absent-subject"></strong>?</p>
+      <button onclick="confirmAttendance(false)">✅ Yes, I am Absent</button>
+      <button onclick="closeModal('absentModal')">❌ No, Close</button>
+    </div>
+  </div>
+
+  <!-- Modal for Add Subject -->
+  <div id="addSubjectModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('addSubjectModal')">&times;</span>
+      <h3>Add a New Subject</h3>
+      <input type="text" id="newSubjectName" placeholder="Enter subject name">
+      <button onclick="confirmAddSubject()">Add Subject</button>
+      <button onclick="closeModal('addSubjectModal')">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Modal for Reset All -->
+  <div id="resetModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('resetModal')">&times;</span>
+      <h3>Are you sure you want to reset all attendance data?</h3>
+      <button onclick="confirmReset()">Yes, Reset All</button>
+      <button onclick="closeModal('resetModal')">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Modal for Delete Subject -->
+  <div id="deleteSubjectModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('deleteSubjectModal')">&times;</span>
+      <h3>Are you sure you want to delete <strong id="delete-subject-name"></strong>?</h3>
+      <button onclick="confirmDeleteSubject()">Yes, Delete Subject</button>
+      <button onclick="closeModal('deleteSubjectModal')">Cancel</button>
+    </div>
+  </div>
+<div class="foot">
+  <div class="two">
+    <h2>Forged by - Happy Nishu</h2>
+  </div>
+</div>
+  <script>
+    let subjects = ["Kannada", "English", "DS", "Java", "OS", "CV", "OS Lab", "Java Lab", "DS Lab"];
+    let data = {};
+
+    const savedData = localStorage.getItem("attendanceData");
+    if (savedData) {
+      data = JSON.parse(savedData);
+      subjects = Object.keys(data);
+    } else {
+      data = {};
+      subjects.forEach(subject => {
+        data[subject] = { present: 0, total: 0, log: {} };
+      });
+    }
+
+    const setupContainer = document.getElementById("setupContainer");
+    subjects.forEach(subject => {
+      if (!data[subject].log) data[subject].log = {};
+      setupContainer.innerHTML += `
+        <div>
+          <strong>${subject}</strong> - Present: 
+          <input type="number" id="init-present-${subject}" value="${data[subject].present}"> 
+          Total: 
+          <input type="number" id="init-total-${subject}" value="${data[subject].total}">
+        </div>
+      `;
+    });
+
+    function saveManualSetup() {
+      subjects.forEach(subject => {
+        const pres = parseInt(document.getElementById(`init-present-${subject}`).value);
+        const tot = parseInt(document.getElementById(`init-total-${subject}`).value);
+        data[subject].present = pres;
+        data[subject].total = tot;
+      });
+      localStorage.setItem("attendanceData", JSON.stringify(data));
+      alert("✅ Initial attendance saved!");
+      location.reload();
+    }
+
+    const subjectContainer = document.getElementById("subjects");
+    subjects.forEach(subject => {
+      const div = document.createElement("div");
+      div.className = "subject";
+      div.innerHTML = `
+        <h3>${subject} 
+          <button onclick="showDeleteSubjectModal('${subject}')" style="float:right;background:#ff4444;color:white;border:none;border-radius:6px;padding:2px 8px;cursor:pointer;">🗑️</button>
+        </h3>
+        <div class="attendance">
+          <button onclick="showPresentModal('${subject}')">✅ Present</button>
+          <button class="absent" onclick="showAbsentModal('${subject}')">❌ Absent</button>
+          <div class="status" id="status-${subject}"></div>
+        </div>
+      `;
+      subjectContainer.appendChild(div);
+      updateUI(subject);
+    });
+
+    function showPresentModal(subject) {
+      currentSubject = subject;
+      document.getElementById("modal-subject").innerText = subject;
+      document.getElementById("presentModal").style.display = "block";
+    }
+
+    function showAbsentModal(subject) {
+      currentSubject = subject;
+      document.getElementById("absent-subject").innerText = subject;
+      document.getElementById("absentModal").style.display = "block";
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = "none";
+    }
+
+    function confirmAttendance(present) {
+      const today = new Date().toISOString().split("T")[0];
+
+      if (!data[currentSubject].log) data[currentSubject].log = {};
+
+      if (data[currentSubject].log[today] !== undefined) {
+        closeModal(present ? 'presentModal' : 'absentModal');
+        return;
+      }
+
+      data[currentSubject].log[today] = present;
+      data[currentSubject].total++;
+
+      if (present) {
+        data[currentSubject].present++;
+      }
+
+      localStorage.setItem("attendanceData", JSON.stringify(data));
+
+      updateUI(currentSubject);
+      updateChart();
+      updatePlanner();
+
+      closeModal(present ? 'presentModal' : 'absentModal');
+    }
+
+    function updateUI(subject) {
+      const d = data[subject];
+      const percent = d.total > 0 ? ((d.present / d.total) * 100).toFixed(1) : 0;
+      document.getElementById(`status-${subject}`).innerText = `Present: ${d.present} | Total: ${d.total} (${percent}%)`;
+    }
+
+    const ctx = document.getElementById('attendanceChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: subjects,
+        datasets: [{
+          label: 'Attendance %',
+          data: subjects.map(s => 0),
+          backgroundColor: '#ff4081'
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100
+          }
+        }
+      }
+    });
+
+    function updateChart() {
+      chart.data.labels = subjects;
+      chart.data.datasets[0].data = subjects.map(sub => {
+        const d = data[sub];
+        return d.total > 0 ? ((d.present / d.total) * 100).toFixed(1) : 0;
+      });
+      chart.update();
+    }
+
+    function updatePlanner() {
+      const target = parseFloat(document.getElementById("targetInput").value);
+      let text = "";
+      subjects.forEach(sub => {
+        const d = data[sub];
+        if (d.total > 0) {
+          const p = d.present;
+          const t = d.total;
+          const x = Math.ceil((target * t - 100 * p) / (100 - target));
+          text += `<strong>${sub}</strong>: Attend next <b>${x > 0 ? x : 0}</b> class(es) to reach ${target}%<br>`;
+        }
+      });
+      document.getElementById("plannerResult").innerHTML = text;
+    }
+
+    function filterSubjects() {
+      const query = document.getElementById("searchInput").value.toLowerCase();
+      subjects.forEach(subject => {
+        const div = document.getElementById(`subject-${subject}`);
+        if (subject.toLowerCase().includes(query)) {
+          div.style.display = "block";
+        } else {
+          div.style.display = "none";
+        }
+      });
+    }
+
+    function showDeleteSubjectModal(subject) {
+      currentSubject = subject;
+      document.getElementById("delete-subject-name").innerText = subject;
+      document.getElementById("deleteSubjectModal").style.display = "block";
+    }
+
+    function confirmDeleteSubject() {
+      delete data[currentSubject];
+      localStorage.setItem("attendanceData", JSON.stringify(data));
+      location.reload();
+      closeModal('deleteSubjectModal');
+    }
+
+    function resetAttendance() {
+      document.getElementById("resetModal").style.display = "block";
+    }
+
+    function confirmReset() {
+      localStorage.removeItem("attendanceData");
+      location.reload();
+    }
+
+    function addNewSubject() {
+      document.getElementById("addSubjectModal").style.display = "block";
+    }
+
+    function confirmAddSubject() {
+      const newSubject = document.getElementById("newSubjectName").value;
+      if (newSubject) {
+        subjects.push(newSubject);
+        data[newSubject] = { present: 0, total: 0, log: {} };
+        localStorage.setItem("attendanceData", JSON.stringify(data));
+        location.reload();
+      }
+      closeModal('addSubjectModal');
+    }
+
+  </script>
+</body>
+</html>
